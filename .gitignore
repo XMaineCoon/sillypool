@@ -1,0 +1,21 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# virtualenv
+venv/
+.venv*/
+
+# pycharm
+.idea/
+
+# vscode
+.vscode/
+
+# sqlite
+*.db
+*.db-journal
+
+# configuration file
+config_dev.json

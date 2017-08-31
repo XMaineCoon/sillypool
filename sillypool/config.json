@@ -1,0 +1,25 @@
+{
+    "spider": {
+        "interval": 1800,
+
+        "size": 5,
+        "timeout": 5,
+        "retry": 3
+    },
+
+    "validator": {
+        "size": 20,
+        "timeout": 5
+    },
+
+    "mysql": {
+        "user": "root",
+        "password": "",
+        "host": "localhost",
+        "port": 3306,
+        "dbname": "sillypool"
+    },
+
+    "pid_file": "/var/run/sillypool.pid",
+    "log_file": "/var/log/sillypool.log"
+}
