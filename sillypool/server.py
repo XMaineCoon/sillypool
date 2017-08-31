@@ -15,14 +15,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import sys
-import os
 import logging
+import os
+import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), os.path.pardir))
 
 from sillypool import shell
-from sillypool import daemon
+from sillypool.libs import daemon
 
 
 def run_spider(config):

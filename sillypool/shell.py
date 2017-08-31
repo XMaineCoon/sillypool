@@ -194,7 +194,6 @@ def get_config():
         config['mysql']['user'], config['mysql']['password'],
         config['mysql']['host'], config['mysql']['port'],
         config['mysql']['dbname'])
-    config['sqlalchemy_uri'] = 'sqlite:////E:/sillypool/sillypool/test.db'
     logging.info(config['sqlalchemy_uri'])
 
     # logger setting
