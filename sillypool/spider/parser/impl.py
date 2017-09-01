@@ -15,6 +15,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from sillypool.urls import QQWRY_PATH
+from sillypool.libs.iplocator import IPLocator
 
-# version number
-__version__ = '0.0.1'
+
+class ParserImpl:
+    def __init__(self):
+        pass
+
+    def parser(self):
+        raise NotImplementedError

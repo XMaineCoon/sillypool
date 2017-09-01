@@ -20,7 +20,6 @@ import sys
 import json
 import getopt
 import logging
-import traceback
 
 from functools import wraps
 
@@ -69,6 +68,7 @@ def exception_handle(self_, err_msg=None, exit_code=None,
             logging.error('%s when handling connection from %s:%d' %
                           (e, addr, port))
         if self._config['verbose']:
+            import traceback
             traceback.print_exc()
         if destroy:
             self.destroy()

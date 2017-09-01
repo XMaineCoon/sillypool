@@ -25,7 +25,7 @@ import logging
 from gevent.pool import Pool
 from sqlalchemy import create_engine
 
-from sillypool.common import FREE_PROXY_LIST
+from sillypool.urls import FREE_PROXY_LIST
 from sillypool.database.base import DBSession
 from sillypool.database.model import Proxy
 from sillypool.spider.parser import Parser
