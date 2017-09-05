@@ -20,6 +20,12 @@ import os
 # chunzhen ip database's location
 QQWRY_PATH = os.path.join(os.path.dirname(__file__), './database/qqwry.dat')
 
+# TODO
+PARSER_TYPE = {
+    'css': 'sillypool.spider.parser.css.CssParser',
+    're': 'sillypool.spider.parser.re.ReParser',
+    'xpath': 'sillypool.spider.parser.xpath.XPathParser',
+}
 
 FREE_PROXY_LIST = [
     {
@@ -45,38 +51,36 @@ FREE_PROXY_LIST = [
         'type': 'xpath',
         'pattern':".//table[@class='list']/tr",
         'position':{'ip': './td[1]', 'port': './td[2]'}
-
     },
     {
         'urls': ['http://incloak.com/proxy-list/%s#list' % n for n in (['']+['?start=%s' % (64*m) for m in range(1, 10)])],
         'type': 'xpath',
         'pattern':".//table[@class='proxy__t']/tbody/tr",
-        'position':{'ip': './td[1]', 'port': './td[2]', 'type': '', 'protocol': ''}
-
+        'position':{'ip': './td[1]', 'port': './td[2]'}
     },
     {
         'urls': ['http://www.kuaidaili.com/proxylist/%s/' % n for n in range(1, 11)],
         'type': 'xpath',
         'pattern': ".//*[@id='index_free_list']/table/tbody/tr[position()>0]",
-        'position':{'ip': './td[1]', 'port': './td[2]', 'type': './td[3]','protocol': './td[4]'}
+        'position':{'ip': './td[1]', 'port': './td[2]'}
     },
     {
         'urls': ['http://www.kuaidaili.com/free/%s/%s/' % (m, n) for m in ['inha', 'intr', 'outha', 'outtr'] for n in range(1, 11)],
         'type': 'xpath',
         'pattern': ".//*[@id='list']/table/tbody/tr[position()>0]",
-        'position':{'ip': './td[1]', 'port': './td[2]', 'type': './td[3]', 'protocol': './td[4]'}
+        'position':{'ip': './td[1]', 'port': './td[2]'}
     },
     {
         'urls': ['http://www.ip181.com/daili/%s.html' % n for n in range(1, 11)],
         'type': 'xpath',
         'pattern': ".//div[@class='row']/div[3]/table/tbody/tr[position()>1]",
-        'position':{'ip': './td[1]', 'port': './td[2]', 'type': './td[3]', 'protocol': './td[4]'}
+        'position':{'ip': './td[1]', 'port': './td[2]'}
 
     },
     {
         'urls': ['http://www.xicidaili.com/%s/%s' % (m, n) for m in ['nn', 'nt', 'wn', 'wt'] for n in range(1, 8)],
         'type': 'xpath',
         'pattern': ".//*[@id='ip_list']/tr[position()>1]",
-        'position':{'ip': './td[2]', 'port': './td[3]', 'type': './td[5]', 'protocol': './td[6]'}
+        'position':{'ip': './td[2]', 'port': './td[3]'}
     },
 ]

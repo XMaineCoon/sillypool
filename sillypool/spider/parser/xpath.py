@@ -20,7 +20,7 @@ import logging
 
 from lxml.etree import HTML
 
-from sillypool.urls import QQWRY_PATH
+from sillypool.settings import QQWRY_PATH
 from sillypool.database.model import Proxy
 from sillypool.libs.exception import ParserTypeNotSupportError
 from sillypool.libs.iplocator import IPLocator

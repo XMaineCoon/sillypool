@@ -25,7 +25,7 @@ import logging
 from gevent.pool import Pool
 from sqlalchemy import create_engine
 
-from sillypool.urls import FREE_PROXY_LIST
+from sillypool.settings import FREE_PROXY_LIST
 from sillypool.database.base import DBSession
 from sillypool.database.model import Proxy
 from sillypool.spider.parser import Parser
@@ -36,14 +36,23 @@ class Spider:
     def __init__(self, config):
         self.config = config
         self.unique = set()
+        self._stop = False
         self.pool = Pool(size=config['spider']['size'])
 
         # adding addition configuration to DBSession
         engine = create_engine(config['sqlalchemy_uri'], max_overflow=config['spider']['size'])
         DBSession.configure(bind=engine)
 
+    def run(self):
+        while not self._stop:
+            def exception_handler(request, exception):
+                pass
+
+    def quit(self):
+        pass
+
     def start(self):
-        while True:
+        while not self._stop:
             session = DBSession()
             proxy_list = session.query(Proxy).all()
             session.close()
@@ -51,12 +60,11 @@ class Spider:
             for proxy in proxy_list:
                 self.unique.add(proxy.ip + ":" + str(proxy.port))
 
-            logging.info('spider unique size: ' + str(len(self.unique)))
-            self.pool.map(self.crawl, FREE_PROXY_LIST)
-
-            time.sleep(self.config['spider']['interval'])
+            for url_config in FREE_PROXY_LIST:
+                self.crawl(url_config)
 
     def stop(self):
+        self._stop = True
         sys.exit()
 
     def crawl(self, url_config):

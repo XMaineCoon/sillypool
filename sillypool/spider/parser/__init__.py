@@ -15,5 +15,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from sillypool.urls import QQWRY_PATH
-from sillypool.libs.iplocator import IPLocator
+from sillypool.libs.util import import_string
+
+
+class Parser:
+    def __init__(self, dotted_path):
+        self.__impl = import_string(dotted_path)()
+
+    def parse(self):
+        self.__impl.parse()
