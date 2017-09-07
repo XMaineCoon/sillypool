@@ -139,8 +139,8 @@ def main():
             processes = list()
 
             processes.append(Process(target=run_spider, args=(config, ), name="spider"))
-            processes.append(Process(target=run_validator, args=(config, ), name="validator"))
-            processes.append(Process(target=run_webui, args=(), name='webui'))
+            # processes.append(Process(target=run_validator, args=(config, ), name="validator"))
+            # processes.append(Process(target=run_webui, args=(), name='webui'))
 
             for process in processes:
                 process.daemon = True

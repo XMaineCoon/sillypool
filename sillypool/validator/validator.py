@@ -31,8 +31,7 @@ from sqlalchemy import create_engine
 from sillypool.libs.util import make_header, get_outer_ip
 from sillypool.libs.util import TEST_HTTP_URL, TEST_HTTPS_URL
 from sillypool.libs.exception import InvalidInputTypeError, InvalidResponseError
-from sillypool.database.base import DBSession
-from sillypool.database.model import Proxy
+from sillypool.database.proxydb import ProxyDB
 
 
 class Validator:
@@ -41,15 +40,11 @@ class Validator:
         self.outer_ip = get_outer_ip()
         self.pool = Pool(size=self.config['validator']['size'])
 
-        # adding addition configuration to DBSession
-        engine = create_engine(config['sqlalchemy_uri'])
-        DBSession.configure(bind=engine)
+        self.proxydb = ProxyDB('mysql+pymysql://root:mg112233@localhost:3306/proxydb')
 
     def start(self):
         while True:
-            session = DBSession()
-            proxy_list = session.query(Proxy).all()
-            session.close()
+            proxys = self.proxydb.
 
             if proxy_list:
                 self.pool.map(self.validate_proxy, proxy_list)

@@ -23,7 +23,7 @@ import requests
 from sillypool.libs.exception import InvalidResponseError
 from sillypool.libs.util import make_header
 from sillypool.database.base import DBSession
-from sillypool.database.model import Proxy
+from sillypool.database.models import Proxy
 
 
 class Downloader:

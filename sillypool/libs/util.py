@@ -85,3 +85,22 @@ def to_str(s):
         if type(s) == bytes:
             return s.decode('utf-8')
     return s
+
+
+def ip2str(ip, port):
+    """
+    format ip and port
+    :param ip:   '192.168.1.1'
+    :param port: 80
+    :return:     '192.168.1.1:80'
+    """
+    return '{}:{}'.format(ip, port)
+
+
+def str2ip(s):
+    """
+    split ip and port
+    :param s: '192.168.1.1:80'
+    :return:  ('192.168.1.1', 80)
+    """
+    return s.split(':')[0], int(s.split(':')[1])

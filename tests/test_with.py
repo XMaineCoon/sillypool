@@ -1,20 +1,22 @@
 # -*- coding: utf-8 -*-
 
+import time
+from gevent import monkey
+monkey.patch_all(time=True)
 
-from contextlib import contextmanager
+
+def echo(i):
+    time.sleep(1-i*0.1)
+    print(i)
+    return i
 
 
-@contextmanager
-def make_context():
-    print('enter')
-    try:
-        print('1')
-        yield {}
-        print('2')
-    except RuntimeError as err:
-        print(err)
-    finally:
-        print('exit')
+from gevent.pool import Pool
 
-with make_context() as value:
-    print(type(value))
+p = Pool(5)
+run1 = [a for a in p.imap_unordered(echo, range(10))]
+run2 = [a for a in p.imap_unordered(echo, range(10))]
+run3 = [a for a in p.imap_unordered(echo, range(10))]
+run4 = [a for a in p.imap_unordered(echo, range(10))]
+
+print(run1 == run2 == run3 == run4)

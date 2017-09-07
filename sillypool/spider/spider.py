@@ -16,18 +16,11 @@
 # limitations under the License.
 
 
-from gevent import monkey
-monkey.patch_all(thread=False)
-
 import sys
-import time
 import logging
-from gevent.pool import Pool
-from sqlalchemy import create_engine
-
+import grequests
 from sillypool.settings import FREE_PROXY_LIST
-from sillypool.database.base import DBSession
-from sillypool.database.model import Proxy
+from sillypool.database.proxydb import ProxyDB
 from sillypool.spider.parser import Parser
 from sillypool.spider.downloader import Downloader
 
@@ -36,35 +29,34 @@ class Spider:
     def __init__(self, config):
         self.config = config
         self.unique = set()
-        self._stop = False
-        self.pool = Pool(size=config['spider']['size'])
+        self._quit = False
 
-        # adding addition configuration to DBSession
-        engine = create_engine(config['sqlalchemy_uri'], max_overflow=config['spider']['size'])
-        DBSession.configure(bind=engine)
+        self.proxydb = ProxyDB('mysql+pymysql://root:mg112233@localhost:3306/proxydb')
 
     def run(self):
-        while not self._stop:
+        while not self._quit:
             def exception_handler(request, exception):
-                pass
+                print('Request failed')
+
+            reqs = [
+                grequests.get(''),
+            ]
+            grequests.map(reqs, exception_handler=exception_handler)
 
     def quit(self):
-        pass
+        self._quit = True
 
     def start(self):
-        while not self._stop:
-            session = DBSession()
-            proxy_list = session.query(Proxy).all()
-            session.close()
+        while not self._quit:
             self.unique.clear()
-            for proxy in proxy_list:
-                self.unique.add(proxy.ip + ":" + str(proxy.port))
+            for ip in self.proxydb.load_ip():
+                self.unique.add(ip)
 
             for url_config in FREE_PROXY_LIST:
                 self.crawl(url_config)
 
     def stop(self):
-        self._stop = True
+        self._quit = True
         sys.exit()
 
     def crawl(self, url_config):
@@ -82,3 +74,14 @@ class Spider:
                             proxy.save()
         except Exception as e:
             logging.error(e.args)
+
+    @staticmethod
+    def _ip2str(ip, port):
+        return '{}:{}'.format(ip, port)
+
+    @staticmethod
+    def _str2ip(s):
+        return s.split(':')
+
+if __name__ == '__main__':
+    pass
